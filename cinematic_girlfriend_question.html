@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question 💗</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap');
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:#090014;color:white}
+body{background:
+radial-gradient(circle at 20% 20%,#5d146f 0,transparent 32%),
+radial-gradient(circle at 80% 70%,#9e164f 0,transparent 34%),
+linear-gradient(135deg,#090014,#180025 55%,#08000f)}
+#stars{position:fixed;inset:0;pointer-events:none}
+.star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;opacity:.7;animation:twinkle 2s infinite ease-in-out}
+@keyframes twinkle{50%{opacity:.15;transform:scale(.55)}}
+.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;transition:opacity .8s,transform .8s}
+.hidden{opacity:0;pointer-events:none;transform:scale(1.04)}
+.card{width:min(680px,100%);padding:38px 28px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);backdrop-filter:blur(18px);border-radius:30px;box-shadow:0 30px 100px rgba(0,0,0,.45);text-align:center}
+.eyebrow{letter-spacing:3px;text-transform:uppercase;font-size:12px;color:#ffc7e5}
+h1{font-family:'Playfair Display',serif;font-size:clamp(42px,9vw,76px);margin:16px 0 10px;line-height:.95}
+p{font-size:17px;line-height:1.7;color:#f5ddeb}
+button{border:0;border-radius:999px;padding:15px 24px;font-size:16px;font-weight:700;cursor:pointer;transition:.25s; margin:8px}
+.primary{background:linear-gradient(135deg,#ff4fa3,#ff8ac8);color:white;box-shadow:0 12px 35px rgba(255,79,163,.35)}
+.secondary{background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.18)}
+button:hover{transform:translateY(-3px) scale(1.03)}
+#name{font-family:'Playfair Display',serif;font-size:clamp(38px,8vw,66px);margin:10px 0;color:#ffd1e8}
+#message{min-height:115px}
+.count{font-family:'Playfair Display',serif;font-size:90px;color:#ff8ac8;margin:10px}
+.secret{margin:24px auto 0;padding:18px;border-radius:20px;background:rgba(255,255,255,.07);display:none}
+.heart{position:fixed;bottom:-30px;font-size:22px;animation:float 5s linear forwards;pointer-events:none}
+@keyframes float{to{transform:translateY(-110vh) rotate(20deg);opacity:0}}
+.burst{position:fixed;left:50%;top:50%;font-size:34px;animation:burst 1.8s ease-out forwards;pointer-events:none}
+@keyframes burst{to{transform:translate(calc(var(--x)*1px),calc(var(--y)*1px)) rotate(360deg);opacity:0}}
+.small{font-size:13px;color:#dcb7cf;margin-top:20px}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+
+<section class="screen" id="intro">
+  <div class="card">
+    <div class="eyebrow">A tiny website for a very big question</div>
+    <h1>Hey, you. ✨</h1>
+    <p>I made something instead of just sending a normal text.</p>
+    <button class="primary" onclick="begin()">Open this 💌</button>
+    <div class="small">No pressure. Just a little courage. ♡</div>
+  </div>
+</section>
+
+<section class="screen hidden" id="reveal">
+  <div class="card">
+    <div class="eyebrow">Wait… there's something I need to say</div>
+    <div id="name">someone special</div>
+    <p id="message"></p>
+    <button class="primary" onclick="countdown()">Keep going →</button>
+  </div>
+</section>
+
+<section class="screen hidden" id="countdown">
+  <div class="card">
+    <div class="eyebrow">Okay… here goes nothing 😭</div>
+    <div class="count" id="number">3</div>
+    <p>Prepare yourself.</p>
+  </div>
+</section>
+
+<section class="screen hidden" id="question">
+  <div class="card">
+    <div class="eyebrow">The question</div>
+    <h1>Will you be<br>my girlfriend? ♡</h1>
+    <p>Whatever your answer is, I just wanted you to know that asking you took a little courage. 💗</p>
+    <button class="primary" onclick="yes()">YES 💕</button>
+    <button class="secondary" onclick="maybe()">Let me think 😭</button>
+    <div class="secret" id="secret">That's completely okay. 💗 Take your time and give me your honest answer whenever you're ready.</div>
+  </div>
+</section>
+
+<section class="screen hidden" id="yes">
+  <div class="card">
+    <div class="eyebrow">WAIT… WHAT?! 😭</div>
+    <h1>YOU SAID YES. 💗</h1>
+    <p>Okay, this website officially has the happiest ending possible.</p>
+    <p>🥹✨💕🌸🫶</p>
+    <div class="small">Made with a little courage & a lot of hope.</div>
+  </div>
+</section>
+
+<script>
+const stars=document.getElementById('stars');
+for(let i=0;i<90;i++){
+  const s=document.createElement('i'); s.className='star';
+  s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=Math.random()*2+'s'; stars.appendChild(s);
+}
+function show(id){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function hearts(n=18){
+  for(let i=0;i<n;i++){
+    setTimeout(()=>{
+      const h=document.createElement('div'); h.className='heart';
+      h.textContent=['💗','💕','💖','✨','🌸'][Math.floor(Math.random()*5)];
+      h.style.left=Math.random()*100+'vw'; h.style.animationDuration=(3+Math.random()*3)+'s';
+      document.body.appendChild(h); setTimeout(()=>h.remove(),6500);
+    },i*90);
+  }
+}
+function begin(){
+  show('reveal'); hearts(12);
+  const text="I could have just asked you normally… but you deserve something a little more memorable. I really like you, and I’d love to see where this could go. 💗";
+  let i=0, el=document.getElementById('message'); el.textContent='';
+  const timer=setInterval(()=>{el.textContent+=text[i++]; if(i>=text.length)clearInterval(timer)},28);
+}
+function countdown(){
+  show('countdown'); let n=3; const el=document.getElementById('number'); el.textContent=n;
+  const t=setInterval(()=>{n--; if(n===0){clearInterval(t); show('question'); hearts(15)} else el.textContent=n},900);
+}
+function maybe(){document.getElementById('secret').style.display='block'}
+function yes(){
+  show('yes'); hearts(45);
+  for(let i=0;i<28;i++){
+    setTimeout(()=>{
+      const b=document.createElement('div'); b.className='burst'; b.textContent=['💗','💕','✨','🥹','🌸'][i%5];
+      b.style.setProperty('--x',(Math.random()*700-350)); b.style.setProperty('--y',(Math.random()*700-350));
+      document.body.appendChild(b); setTimeout(()=>b.remove(),1900);
+    },i*35);
+  }
+}
+</script>
+</body>
+</html>
